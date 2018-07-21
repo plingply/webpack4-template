@@ -52,12 +52,6 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
-				test: /\.jade$/,
-				loader: 'jade-loader',
-				include: [resolve('src')], //限制范围，提高打包速度
-				exclude: /node_modules/
-			},
-			{
 				test: /\.css$/,
 				use: ['css-hot-loader', {
 					loader: MiniCssExtractPlugin.loader,
