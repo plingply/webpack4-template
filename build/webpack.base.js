@@ -6,6 +6,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') //CSS文件单独提取出来
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin') // 复制静态资源的插件
+let isDevelopment = process.env.NODE_ENV === 'development';
 
 const config = require("../config/index")
 
@@ -114,10 +115,12 @@ module.exports = {
 	},
 	plugins: [
 		new VueLoaderPlugin(),
+
 		new MiniCssExtractPlugin({
-			filename: "static/style/[name].[hash].css",
-			chunkFilename: 'static/style/[id].[name].[contenthash:12].css'
+			filename: isDevelopment?"static/style/[name].css":"static/style/[name].[hash].css",
+			chunkFilename: isDevelopment?'static/style/[name].css':'static/style/[id].[name].[contenthash:12].css'
 		}),
+
 		new CopyWebpackPlugin([
 			{
 				from: path.join(__dirname, '..', 'static'),

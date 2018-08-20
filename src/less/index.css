@@ -108,7 +108,9 @@ footer {
   display: block /*\9*/;
 }
 body {
-  background-image: url(../static/img/bj1.jpg);
   transition: all .3s;
   background-repeat: no-repeat;
+}
+h2 {
+  color: green;
 }
