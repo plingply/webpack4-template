@@ -5,6 +5,24 @@
     <h3>组件内样式</h3>
   </div>
 </template>
+
+<script>
+export default {
+  data(){
+    return {
+
+    }
+  },
+  created(){
+    let a = '123'
+    if('a' == a){
+      console.log(a)
+    }
+  }
+}
+</script>
+
+
 <style lang="scss" scoped>
 .h1 {
   font-size: 40px;

@@ -2,13 +2,13 @@
   <h1 class="xxxx">{{ data }}</h1>
 </template>
 <script>
-	export default {
-		data(){
-			return {
-				data:"PAGE2页面"
-			}
+export default {
+	data(){
+		return {
+			data:"PAGE2页面"
 		}
 	}
+}
 </script>
 <style lang="less" scoped>
 .xxxx{
