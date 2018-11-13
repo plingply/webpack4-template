@@ -10,8 +10,8 @@ module.exports = {
         //api 代理地址
         apiURL: '',
         // eslint
-        useEslint: true,
-        showEslintErrorsInOverlay: true
+        useEslint: false,
+        showEslintErrorsInOverlay: false
     },
     // 生产环境
     production: {

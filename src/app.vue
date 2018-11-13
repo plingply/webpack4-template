@@ -6,6 +6,7 @@
     <ul>
       <router-link tag="li" :class="{active:$route.name == 'page1'}" :to="{name:'page1'}">Page1</router-link>
       <router-link tag="li" :class="{active:$route.name == 'page2'}" :to="{name:'page2'}">Page2</router-link>
+      <router-link tag="li" :class="{active:$route.name == 'page3'}" :to="{name:'page3'}">Page3</router-link>
     </ul>
     <div class="contnet">
       <router-view></router-view>
