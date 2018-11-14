@@ -5,8 +5,12 @@ import axios from './plugin/ajax/index'
 import store from './store'
 
 import './less/index.less'
+import 'vue-cut-picture/dist/style.css'
+
+import cutimg from "vue-cut-picture";
 
 vue.use(vueRouter)
+vue.use(cutimg)
 
 
 vue.prototype.$http = axios

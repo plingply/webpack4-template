@@ -4,16 +4,13 @@
 		<div>
 			<input type="file" @change="changes">
 		</div>
-		<cutimg :url="url" v-show="cutimgshow" :height="height" :width="width" :cutwidth="cutwidth" @uploadfile="uploadfile"></cutimg>
+		<vue-cut-picture :url="url" v-show="cutimgshow" :height="height" :width="width" :cutwidth="cutwidth" @uploadfile="uploadfile"></vue-cut-picture>
 		<img :src="src" alt="" style="max-width:100%">
 	</div>
 </template>
 <script>
-import cutimg from "./cutimg";
+
 export default {
-  components: {
-    cutimg
-  },
   data() {
     return {
       url: "",
@@ -37,3 +34,4 @@ export default {
   }
 };
 </script>
+
