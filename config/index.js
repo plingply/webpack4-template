@@ -3,6 +3,7 @@ module.exports = {
     publicPath: "../../",
     // 开发环境
     development: {
+        host:'172.31.120.212',
         // 端口
         port: 8989,
         // 静态资源路径

@@ -15,7 +15,7 @@ const devWebpackConfig = merge(baseConfig, {
 		hot: true,//热加载
 		contentBase: path.join(__dirname, "..", "dev"), //静态文件根目录
 		port: config.development.port, // 端口
-		host: 'localhost',
+		host: config.development.host,
 		overlay: true,
 		compress: true, // 服务器返回浏览器的时候是否启动gzip压缩
 		proxy: {

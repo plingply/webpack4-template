@@ -51,7 +51,7 @@ ul{
   }
 }
 .contnet{
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding-top: 50px;
 }
