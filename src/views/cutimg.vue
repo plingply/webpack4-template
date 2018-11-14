@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="cut_imgbox" ref="cut_imgbox" v-loading="txLoading" @touchend="carboxup($event)" @mouseup="carboxup($event)">
+        <div class="cut_imgbox" ref="cut_imgbox" @touchend="carboxup($event)" @mouseup="carboxup($event)">
             <div class="cut_left">
                 <div class="cut_box" ref="cut_box">
                     <img id="caijianimg" :src="imgurl" alt ref="caijianimg">
@@ -20,9 +20,9 @@
         </div>
         <div ref="yulanimg" style="display:none"></div>
 
-        <span slot="footer" class="dialog-footer">
-            <button type="primary" @click="caijianimg">裁剪头像</button>
-        </span>
+        <div class="cut_btn_box">
+            <button type="button" @click="caijianimg">裁剪头像</button>
+        </div>
     </div>
 </template>
 <script>
@@ -50,8 +50,6 @@ export default {
   },
   data() {
     return {
-      show: false,
-
       isClick: false, // 控制裁剪框移动
       isclick1: false, //控制裁剪框大小
 
@@ -60,9 +58,7 @@ export default {
       oldy: 0,
       imgurl: "",
       // 裁剪框 宽高比例
-      shx: 1,
-
-      txLoading: false
+      shx: 1
     };
   },
   computed: {
@@ -317,7 +313,7 @@ export default {
       var cxt = canvas.getContext("2d");
       //创建新的图片对象
       var img = this.$refs.caijianimg;
-      cxt.drawImage(img, -1 * x, -1 * y, img.width*2, img.height*2);
+      cxt.drawImage(img, -1 * x, -1 * y, img.width * 2, img.height * 2);
 
       this.upload();
     },
@@ -332,10 +328,10 @@ export default {
         return;
       }
       var carbox = this.$refs.cut_carbox;
-      var width = carbox.clientWidth*2;
-      var height = carbox.clientHeight*2;
-      var x = parseFloat(carbox.style.left)*2;
-      var y = parseFloat(carbox.style.top)*2;
+      var width = carbox.clientWidth * 2;
+      var height = carbox.clientHeight * 2;
+      var x = parseFloat(carbox.style.left) * 2;
+      var y = parseFloat(carbox.style.top) * 2;
       this.catImg(width, height, x, y);
     },
 
@@ -393,7 +389,6 @@ export default {
 .cut_imgbox {
   width: 100%;
   height: 500px;
-  background-color: #fff;
   opacity: 1;
   display: flex;
   -webkit-touch-callout: none;
@@ -467,26 +462,20 @@ export default {
       }
     }
   }
-  .cut_right {
-    width: 200px;
-    margin-left: 20px;
-  }
 }
 
-.cut_changetx {
+.cut_btn_box {
   height: 40px;
-  position: relative;
-  margin-bottom: 10px;
-  cursor: pointer;
-  > input {
+  width: 100%;
+  box-sizing: border-box;
+  button {
     display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    opacity: 0;
+    width: 150px;
+    height: 40px;
+    border: none;
+    background-color: #ff6562;
+    margin: 0 auto;
+    color: #fff;
     cursor: pointer;
   }
 }
