@@ -17,7 +17,7 @@ module.exports = {
     // 生产环境
     production: {
         // 端口
-        port: 8888,
+        port: 8881,
         // 静态资源路径
         publicPath: '',
         //api 代理地址

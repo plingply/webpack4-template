@@ -7,6 +7,11 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') //CSS文件单独提取出来
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin') // 复制静态资源的插件
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+
+
 let isDevelopment = process.env.NODE_ENV === 'development';
 
 const config = require("../config/index")
@@ -64,7 +69,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                use: 'happypack/loader?id=js'
             },
             {
                 test: /\.css$/,
@@ -82,7 +87,7 @@ module.exports = {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'css-loader', 'postcss-loader', 'less-loader'],
+                }, 'happypack/loader?id=less'],
                 include: [resolve('src')],
                 exclude: /node_modules/
             },
@@ -93,7 +98,7 @@ module.exports = {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'css-loader', 'postcss-loader', 'sass-loader'],
+                }, 'happypack/loader?id=saas'],
                 include: [resolve('src')],
                 exclude: /node_modules/
             },
@@ -101,33 +106,74 @@ module.exports = {
                 //file-loader 解决css等文件中引入图片路径的问题
                 // url-loader 当图片较小的时候会把图片BASE64编码，大于limit参数的时候还是使用file-loader 进行拷贝
                 test: /\.(png|jpg|jpeg|gif|svg)/,
-                use: {
+                use: 'happypack/loader?id=img'
+            },
+            {
+                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+                use: 'happypack/loader?id=media'
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                use: 'happypack/loader?id=font'
+            }
+        ]
+    },
+    plugins: [
+        
+        new HappyPack({
+            id: 'sass',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader', 'sass-loader']
+        }),
+
+        new HappyPack({
+            id: 'less',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader', 'less-loader']
+        }),
+
+        new HappyPack({
+            id: 'js',
+            threadPool: happyThreadPool,
+            loaders: [ 'babel-loader' ]
+        }),
+
+        new HappyPack({
+            id: 'img',
+            threadPool: happyThreadPool,
+            loaders: [ {
                     loader: 'url-loader',
                     options: {
                         name: assetsPath('img/[name].[ext]'), // 图片输出的路径
                         limit: 1 * 1024
                     }
-                }
-            },
-            {
-                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: assetsPath('media/[name].[hash:7].[ext]')
-                }
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: assetsPath('fonts/[name].[hash:7].[ext]')
-                }
-            }
-        ]
-    },
-    plugins: [
+                } ]
+        }),
+        
+        new HappyPack({
+            id: 'media',
+            threadPool: happyThreadPool,
+            loaders: [ {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: assetsPath('media/[name].[hash:7].[ext]')
+                    }
+                } ]
+        }),
+
+        new HappyPack({
+            id: 'font',
+            threadPool: happyThreadPool,
+            loaders: [ {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: assetsPath('fonts/[name].[hash:7].[ext]')
+                    }
+                } ]
+        }),
+
         new VueLoaderPlugin(),
 
         new MiniCssExtractPlugin({

@@ -34,4 +34,9 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+h3{
+  font-size: 40px;
+}
+</style>
 

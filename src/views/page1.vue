@@ -34,6 +34,7 @@ export default {
 h3 {
   font-size: 30px;
   color: red;
+  background-image: url('../static/img/bj1.jpg');
 }
 </style>
 
