@@ -12,6 +12,8 @@ import cutimg from "vue-cut-picture";
 vue.use(vueRouter)
 vue.use(cutimg)
 
+console.log($config)
+
 
 vue.prototype.$http = axios
 

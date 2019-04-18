@@ -3,7 +3,7 @@ module.exports = {
     publicPath: "../../",
     // 开发环境
     development: {
-        host:'172.31.120.212',
+        host:'localhost',
         // 端口
         port: 8989,
         // 静态资源路径
@@ -22,5 +22,8 @@ module.exports = {
         publicPath: '',
         //api 代理地址
         apiURL: ''
-    }
+    },
+
+    // 源码路由
+    originPagePath: 'src/views'
 }

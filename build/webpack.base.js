@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path');
 const chalk = require('chalk');
+const webpack = require('webpack')
 
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') //CSS文件单独提取出来
@@ -47,7 +48,8 @@ module.exports = {
     resolve: {
         extensions: [".js", ".css", ".json", ".vue"],
         alias: {
-            "vue": "vue/dist/vue.min.js"
+            "vue": "vue/dist/vue.min.js",
+            "@": resolve('src')
         } //配置别名可以加快webpack查找模块的速度
     },
     module: {
@@ -138,8 +140,14 @@ module.exports = {
             to: path.join(__dirname, '..', 'dist', 'static'),
             ignore: ['.*']
         }]),
+
+        
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
         }),
+
+        new webpack.ProvidePlugin({
+            $config: [resolve(`src/config/config.${process.env.NODE_ENV}.js`), 'default']
+          }),
     ]
 }

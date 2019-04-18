@@ -23,7 +23,8 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
+
 .h1 {
   font-size: 40px;
   font-weight: 100;

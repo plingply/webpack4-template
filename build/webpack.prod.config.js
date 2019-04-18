@@ -18,6 +18,7 @@ module.exports = merge(baseConfig, {
 		publicPath: config.production.publicPath 
 	},
 	plugins: [
+
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, '..', 'src', 'index.html'),
 			filename: 'index.html',
