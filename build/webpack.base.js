@@ -78,7 +78,7 @@ module.exports = {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'css-loader', 'postcss-loader']
+                }, 'happypack/loader?id=css']
             },
             {
                 test: /\.less$/,
@@ -119,7 +119,13 @@ module.exports = {
         ]
     },
     plugins: [
-        
+
+        new HappyPack({
+            id: 'css',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader']
+        }),
+
         new HappyPack({
             id: 'sass',
             threadPool: happyThreadPool,
@@ -135,43 +141,43 @@ module.exports = {
         new HappyPack({
             id: 'js',
             threadPool: happyThreadPool,
-            loaders: [ 'babel-loader' ]
+            loaders: ['babel-loader']
         }),
 
         new HappyPack({
             id: 'img',
             threadPool: happyThreadPool,
-            loaders: [ {
-                    loader: 'url-loader',
-                    options: {
-                        name: assetsPath('img/[name].[ext]'), // 图片输出的路径
-                        limit: 1 * 1024
-                    }
-                } ]
+            loaders: [{
+                loader: 'url-loader',
+                options: {
+                    name: assetsPath('img/[name].[ext]'), // 图片输出的路径
+                    limit: 1 * 1024
+                }
+            }]
         }),
-        
+
         new HappyPack({
             id: 'media',
             threadPool: happyThreadPool,
-            loaders: [ {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: assetsPath('media/[name].[hash:7].[ext]')
-                    }
-                } ]
+            loaders: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: assetsPath('media/[name].[hash:7].[ext]')
+                }
+            }]
         }),
 
         new HappyPack({
             id: 'font',
             threadPool: happyThreadPool,
-            loaders: [ {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: assetsPath('fonts/[name].[hash:7].[ext]')
-                    }
-                } ]
+            loaders: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: assetsPath('fonts/[name].[hash:7].[ext]')
+                }
+            }]
         }),
 
         new VueLoaderPlugin(),
@@ -187,13 +193,13 @@ module.exports = {
             ignore: ['.*']
         }]),
 
-        
+
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
         }),
 
         new webpack.ProvidePlugin({
             $config: [resolve(`src/config/config.${process.env.NODE_ENV}.js`), 'default']
-          }),
+        }),
     ]
 }
