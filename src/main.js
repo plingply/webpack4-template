@@ -5,15 +5,9 @@ import axios from './plugin/ajax/index'
 import store from './store'
 
 import './less/index.less'
-import 'vue-cut-picture/dist/style.css'
-import '../theme/index.css'
 
-import cutimg from "vue-cut-picture";
-import element from "element-ui"
 
 vue.use(vueRouter)
-vue.use(cutimg)
-vue.use(element)
 
 console.log($config)
 

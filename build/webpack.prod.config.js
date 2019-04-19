@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path');
+const webpack = require('webpack')
 
 
 const CleanWebpackPlugin = require('clean-webpack-plugin') // 清空打包目录的插件
@@ -18,6 +19,14 @@ module.exports = merge(baseConfig, {
         publicPath: config.production.publicPath
     },
     plugins: [
+
+        new webpack.HashedModuleIdsPlugin({
+            hashDigest: 'hex'
+        }),
+
+        new webpack.NamedChunksPlugin(
+            chunk => chunk.name || Array.from(chunk.modulesIterable, m => m.id).join("_")
+        ),
 
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '..', 'src', 'index.html'),
@@ -60,6 +69,8 @@ module.exports = merge(baseConfig, {
         })
     ],
     optimization: {
+        runtimeChunk: 'single',
+        namedChunks: true,
         splitChunks: {
             cacheGroups: {
                 vendors: {
@@ -67,7 +78,7 @@ module.exports = merge(baseConfig, {
                     name: 'vendors',
                     minSize: 30000,
                     minChunks: 1,
-                    chunks: 'initial',
+                    chunks: 'all',
                     priority: 1 // 该配置项是设置处理的优先级，数值越大越优先处理
                 },
                 commons: {
@@ -75,7 +86,7 @@ module.exports = merge(baseConfig, {
                     name: 'commons',
                     minSize: 30000,
                     minChunks: 3,
-                    chunks: 'initial',
+                    chunks: 'all',
                     priority: -1,
                     reuseExistingChunk: true // 这个配置允许我们使用已经存在的代码块
                 }

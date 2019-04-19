@@ -42,13 +42,15 @@ const createLintingRule = () => ({
 })
 
 module.exports = {
+    mode: 'production',
+    // development
     context: path.resolve(__dirname, '../'),
     entry: {
         main: './src/main.js'
     },
     output: {
         path: resolve('dist'),
-        filename: 'static/js/[name].[hash].js'
+        filename: 'static/js/[name].[chunkhash].js'
     },
     resolve: {
         extensions: [".js", ".css", ".json", ".vue"],
@@ -109,8 +111,8 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        name: assetsPath('img/[name].[ext]'), // 图片输出的路径
-                        limit: 1 * 1024,
+                        name: assetsPath('img/[name].[hash:5].[ext]'), // 图片输出的路径
+                        limit: 10 * 1024,
                         publicPath: config.publicPath
                     }
                 }
@@ -120,8 +122,8 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        limit: 10000,
-                        name: assetsPath('media/[name].[hash:7].[ext]'),
+                        limit: 10 * 1024,
+                        name: assetsPath('media/[name].[hash:5].[ext]'),
                         publicPath: config.publicPath
                     }
                 }
@@ -131,8 +133,8 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        limit: 1,
-                        name: assetsPath('fonts/[name].[ext]'),
+                        limit: 10 * 1024,
+                        name: assetsPath('fonts/[name].[hash:5].[ext]'),
                         publicPath: config.publicPath
                     }
                 }
@@ -168,8 +170,8 @@ module.exports = {
         new VueLoaderPlugin(),
 
         new MiniCssExtractPlugin({
-            filename: isDevelopment ? "static/style/[name].css" : "static/style/[name].[hash].css",
-            chunkFilename: isDevelopment ? 'static/style/[name].css' : 'static/style/[id].[name].[contenthash:12].css'
+            filename: isDevelopment ? "static/style/[name].css" : "static/style/[name].[contenthash].css",
+            chunkFilename: isDevelopment ? 'static/style/[name].css' : 'static/style/[id].[name].[contenthash].css'
         }),
 
         new CopyWebpackPlugin([{
