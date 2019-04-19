@@ -119,16 +119,15 @@ module.exports = {
 
         new VueLoaderPlugin(),
 
-
         new CopyWebpackPlugin([{
             from: path.join(__dirname, '..', 'static'),
             to: path.join(__dirname, '..', 'dist', 'static'),
             ignore: ['.*']
         }]),
 
-
         new ProgressBarPlugin({
-            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
+            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+            width: 60
         }),
 
         new webpack.ProvidePlugin({
