@@ -13,10 +13,6 @@ const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const config = require("../config/index")
 
-const HappyPack = require('happypack');
-const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -41,7 +37,7 @@ module.exports = merge(baseConfig, {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'happypack/loader?id=css']
+                }, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.less$/,
@@ -50,7 +46,7 @@ module.exports = merge(baseConfig, {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'happypack/loader?id=less'],
+                }, 'css-loader', 'postcss-loader', 'less-loader'],
                 include: [resolve('src')],
                 exclude: /node_modules/
             },
@@ -61,7 +57,7 @@ module.exports = merge(baseConfig, {
                     options: {
                         publicPath: config.publicPath
                     }
-                }, 'happypack/loader?id=saas'],
+                }, 'css-loader', 'postcss-loader', 'scss-loader'],
                 include: [resolve('src')],
                 exclude: /node_modules/
             }
@@ -69,24 +65,6 @@ module.exports = merge(baseConfig, {
     },
 
     plugins: [
-
-        new HappyPack({
-            id: 'css',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader']
-        }),
-
-        new HappyPack({
-            id: 'sass',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader', 'sass-loader']
-        }),
-
-        new HappyPack({
-            id: 'less',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader', 'less-loader']
-        }),
 
         new webpack.NamedChunksPlugin(chunk => {
 
@@ -167,36 +145,29 @@ module.exports = merge(baseConfig, {
         })
     ],
     optimization: {
-		splitChunks: {
-			minSize: 1,
-			chunks: "initial",
-			name: "vendor"
-		}
-	}
-    // optimization: {
-    //     runtimeChunk: 'single',
-    //     namedChunks: true,
-    //     moduleIds: "hashed",
-    //     splitChunks: {
-    //         chunks: 'initial',
-    //         cacheGroups: {
-    //             vendors: {
-    //                 test: /[\\/]node_modules[\\/]/,
-    //                 name: 'vendors',
-    //                 minSize: 30000,
-    //                 minChunks: 1,
-    //                 priority: 1 // 该配置项是设置处理的优先级，数值越大越优先处理
-    //             },
-    //             commons: {
-    //                 test: /[\\/]src[\\/]/,
-    //                 name: 'commons',
-    //                 minSize: 30000,
-    //                 minChunks: 2,
-    //                 priority: -1,
-    //                 reuseExistingChunk: true // 这个配置允许我们使用已经存在的代码块
-    //             }
-    //         }
-    //     }
-    // }
+        runtimeChunk: 'single',
+        namedChunks: true,
+        moduleIds: "hashed",
+        splitChunks: {
+            chunks: 'initial',
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    minSize: 30000,
+                    minChunks: 1,
+                    priority: 1 // 该配置项是设置处理的优先级，数值越大越优先处理
+                },
+                commons: {
+                    test: /[\\/]src[\\/]/,
+                    name: 'commons',
+                    minSize: 30000,
+                    minChunks: 2,
+                    priority: -1,
+                    reuseExistingChunk: true // 这个配置允许我们使用已经存在的代码块
+                }
+            }
+        }
+    }
 
 })
