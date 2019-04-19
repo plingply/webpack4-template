@@ -4,15 +4,11 @@ const chalk = require('chalk');
 const webpack = require('webpack')
 
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin') //CSS文件单独提取出来
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin') // 复制静态资源的插件
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-
-
-let isDevelopment = process.env.NODE_ENV === 'development';
 
 const config = require("../config/index")
 
@@ -50,7 +46,8 @@ module.exports = {
     },
     output: {
         path: resolve('dist'),
-        filename: 'static/js/[name].[chunkhash:5].js'
+        filename: 'static/js/[name].js',
+        publicPath: config.development.publicPath
     },
     resolve: {
         extensions: [".js", ".css", ".json", ".vue"],
@@ -72,37 +69,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: 'happypack/loader?id=js'
-            },
-            {
-                test: /\.css$/,
-                use: ['css-hot-loader', {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'happypack/loader?id=css']
-            },
-            {
-                test: /\.less$/,
-                use: ['css-hot-loader', {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'happypack/loader?id=less'],
-                include: [resolve('src')],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.scss$/,
-                use: ['css-hot-loader', {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'happypack/loader?id=saas'],
-                include: [resolve('src')],
-                exclude: /node_modules/
             },
             {
                 //file-loader 解决css等文件中引入图片路径的问题
@@ -142,25 +108,7 @@ module.exports = {
         ]
     },
     plugins: [
-
-        new HappyPack({
-            id: 'css',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader']
-        }),
-
-        new HappyPack({
-            id: 'sass',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader', 'sass-loader']
-        }),
-
-        new HappyPack({
-            id: 'less',
-            threadPool: happyThreadPool,
-            loaders: ['css-loader', 'postcss-loader', 'less-loader']
-        }),
-
+        
         new HappyPack({
             id: 'js',
             threadPool: happyThreadPool,
@@ -169,10 +117,6 @@ module.exports = {
 
         new VueLoaderPlugin(),
 
-        new MiniCssExtractPlugin({
-            filename: isDevelopment ? "static/style/[name].css" : "static/style/[name].[contenthash:5].css",
-            chunkFilename: isDevelopment ? 'static/style/[name].css' : 'static/style/[id].[name].[contenthash:5].css'
-        }),
 
         new CopyWebpackPlugin([{
             from: path.join(__dirname, '..', 'static'),

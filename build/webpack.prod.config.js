@@ -8,21 +8,84 @@ const CleanWebpackPlugin = require('clean-webpack-plugin') // 清空打包目录
 const HtmlWebpackPlugin = require('html-webpack-plugin') // 生成html的插件
 const baseConfig = require('./webpack.base')
 const merge = require('webpack-merge')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') //CSS文件单独提取出来
 
 const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
 const config = require("../config/index")
 
-const seen = new Set();
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
+function resolve(dir) {
+    return path.join(__dirname, '..', dir)
+}
+
+const seen = new Set();
 const nameLength = 4;
 
 module.exports = merge(baseConfig, {
     output: {
-        publicPath: config.production.publicPath
+        filename: 'static/js/[name].[chunkhash:5].js'
     },
+
+    module: {
+        // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['css-hot-loader', {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: config.publicPath
+                    }
+                }, 'happypack/loader?id=css']
+            },
+            {
+                test: /\.less$/,
+                use: ['css-hot-loader', {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: config.publicPath
+                    }
+                }, 'happypack/loader?id=less'],
+                include: [resolve('src')],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.scss$/,
+                use: ['css-hot-loader', {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: config.publicPath
+                    }
+                }, 'happypack/loader?id=saas'],
+                include: [resolve('src')],
+                exclude: /node_modules/
+            }
+        ]
+    },
+
     plugins: [
+
+        new HappyPack({
+            id: 'css',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader']
+        }),
+
+        new HappyPack({
+            id: 'sass',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader', 'sass-loader']
+        }),
+
+        new HappyPack({
+            id: 'less',
+            threadPool: happyThreadPool,
+            loaders: ['css-loader', 'postcss-loader', 'less-loader']
+        }),
 
         new webpack.NamedChunksPlugin(chunk => {
 
@@ -69,6 +132,11 @@ module.exports = merge(baseConfig, {
                 minifyJS: true, //压缩JS
                 removeEmptyAttributes: true //删除空白属性
             }
+        }),
+
+        new MiniCssExtractPlugin({
+            filename: "static/style/[name].[contenthash:5].css",
+            chunkFilename: 'static/style/[id].[name].[contenthash:5].css'
         }),
 
         new CleanWebpackPlugin(['dist'], {

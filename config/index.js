@@ -6,8 +6,6 @@ module.exports = {
         host: 'localhost',
         // 端口
         port: 8980,
-        // 静态资源路径
-        publicPath: '/',
         //api 代理地址
         apiURL: '',
         // eslint
@@ -18,8 +16,6 @@ module.exports = {
     production: {
         // 端口
         port: 8881,
-        // 静态资源路径
-        publicPath: '',
         //api 代理地址
         apiURL: ''
     },
