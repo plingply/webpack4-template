@@ -106,15 +106,36 @@ module.exports = {
                 //file-loader 解决css等文件中引入图片路径的问题
                 // url-loader 当图片较小的时候会把图片BASE64编码，大于limit参数的时候还是使用file-loader 进行拷贝
                 test: /\.(png|jpg|jpeg|gif|svg)/,
-                use: 'happypack/loader?id=img'
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        name: assetsPath('img/[name].[ext]'), // 图片输出的路径
+                        limit: 1 * 1024,
+                        publicPath: config.publicPath
+                    }
+                }
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                use: 'happypack/loader?id=media'
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: assetsPath('media/[name].[hash:7].[ext]'),
+                        publicPath: config.publicPath
+                    }
+                }
             },
             {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                use: 'happypack/loader?id=font'
+                test: /\.(woff|woff2?|eot|ttf|otf)(\?.*)?$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 1,
+                        name: assetsPath('fonts/[name].[ext]'),
+                        publicPath: config.publicPath
+                    }
+                }
             }
         ]
     },
@@ -142,42 +163,6 @@ module.exports = {
             id: 'js',
             threadPool: happyThreadPool,
             loaders: ['babel-loader']
-        }),
-
-        new HappyPack({
-            id: 'img',
-            threadPool: happyThreadPool,
-            loaders: [{
-                loader: 'url-loader',
-                options: {
-                    name: assetsPath('img/[name].[ext]'), // 图片输出的路径
-                    limit: 1 * 1024
-                }
-            }]
-        }),
-
-        new HappyPack({
-            id: 'media',
-            threadPool: happyThreadPool,
-            loaders: [{
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: assetsPath('media/[name].[hash:7].[ext]')
-                }
-            }]
-        }),
-
-        new HappyPack({
-            id: 'font',
-            threadPool: happyThreadPool,
-            loaders: [{
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: assetsPath('fonts/[name].[hash:7].[ext]')
-                }
-            }]
         }),
 
         new VueLoaderPlugin(),

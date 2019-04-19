@@ -3,6 +3,7 @@
     <h1>哈哈哈</h1>
     <h2>测试样式</h2>
     <h3>组件内样式 {{ msg }}</h3>
+    <el-button icon="el-icon-edit">编辑</el-button>
   </div>
 </template>
 
