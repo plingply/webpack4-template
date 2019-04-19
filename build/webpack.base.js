@@ -12,6 +12,8 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 const config = require("../config/index")
 
+const NODE_ENV = process.env.NODE_ENV === 'production'?'production':'development'
+
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -38,16 +40,16 @@ const createLintingRule = () => ({
 })
 
 module.exports = {
-    mode: 'production',
+    mode: NODE_ENV,
     // development
     context: path.resolve(__dirname, '../'),
     entry: {
         main: './src/main.js'
     },
     output: {
-        path: resolve('dist'),
+        path: resolve(config.production.buildDir),
         filename: 'static/js/[name].js',
-        publicPath: config.development.publicPath
+        publicPath: config.publicPath
     },
     resolve: {
         extensions: [".js", ".css", ".json", ".vue"],

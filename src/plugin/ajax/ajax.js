@@ -4,7 +4,7 @@ import tokenFun from '../token'
 let Promise = require('es6-promise').Promise;
 
 const Axios = axios.create({
-    baseURL: '',
+    baseURL: $config.baseURL,
     timeout: 5000,
     withCredentials: true, //带上 cookie
 })

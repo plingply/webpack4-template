@@ -3,7 +3,6 @@
 const path = require('path');
 const webpack = require('webpack')
 
-
 const CleanWebpackPlugin = require('clean-webpack-plugin') // 清空打包目录的插件
 const HtmlWebpackPlugin = require('html-webpack-plugin') // 生成html的插件
 const baseConfig = require('./webpack.base')
@@ -26,6 +25,8 @@ const seen = new Set();
 const nameLength = 4;
 
 module.exports = merge(baseConfig, {
+    // devtool: 'cheap-module-source-map', 
+    devtool: 'none', 
     output: {
         filename: 'static/js/[name].[chunkhash:5].js'
     },
@@ -35,7 +36,7 @@ module.exports = merge(baseConfig, {
         rules: [
             {
                 test: /\.css$/,
-                use: ['css-hot-loader', {
+                use: [ {
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: config.publicPath
@@ -44,7 +45,7 @@ module.exports = merge(baseConfig, {
             },
             {
                 test: /\.less$/,
-                use: ['css-hot-loader', {
+                use: [ {
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: config.publicPath
@@ -55,7 +56,7 @@ module.exports = merge(baseConfig, {
             },
             {
                 test: /\.scss$/,
-                use: ['css-hot-loader', {
+                use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: config.publicPath

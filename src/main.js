@@ -5,18 +5,9 @@ import axios from './plugin/ajax/index'
 import store from './store'
 
 import './less/index.less'
-import "../theme/index.css"
-
-import element from "element-ui"
-
 
 vue.use(vueRouter)
-vue.use(element)
-
-console.log($config)
-
-
-vue.prototype.$http = axios
+vue.use(axios)
 
 import routes from './router/index'
 //实例化VueRouter
