@@ -14,24 +14,53 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const config = require("../config/index")
 
+const seen = new Set();
+
+const nameLength = 4;
+
 module.exports = merge(baseConfig, {
     output: {
         publicPath: config.production.publicPath
     },
     plugins: [
 
-        new webpack.HashedModuleIdsPlugin({
-            hashDigest: 'hex'
-        }),
+        new webpack.NamedChunksPlugin(chunk => {
 
-        new webpack.NamedChunksPlugin(
-            chunk => chunk.name || Array.from(chunk.modulesIterable, m => m.id).join("_")
-        ),
+            if (chunk.name) {
+
+                return chunk.name;
+
+            }
+
+            const modules = Array.from(chunk.modulesIterable);
+
+
+            if (modules.length > 1) {
+
+                const hash = require("hash-sum");
+
+                const joinedHash = hash(modules.map(m => m.id).join("_"));
+
+                let len = nameLength;
+
+                while (seen.has(joinedHash.substr(0, len))) len++;
+
+                seen.add(joinedHash.substr(0, len));
+
+                return `chunk-${joinedHash.substr(0, len)}`;
+
+            } else {
+
+                return modules[0].id;
+
+            }
+
+        }),
 
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '..', 'src', 'index.html'),
             filename: 'index.html',
-            hash: true, //防止缓存
+            hash: false, //防止缓存
             minify: {
                 removeAttributeQuotes: true, //压缩 去掉引号
                 removeComments: true, //删除注释
@@ -71,22 +100,22 @@ module.exports = merge(baseConfig, {
     optimization: {
         runtimeChunk: 'single',
         namedChunks: true,
+        moduleIds: "hashed",
         splitChunks: {
+            chunks: 'initial',
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendors',
                     minSize: 30000,
                     minChunks: 1,
-                    chunks: 'all',
                     priority: 1 // 该配置项是设置处理的优先级，数值越大越优先处理
                 },
                 commons: {
                     test: /[\\/]src[\\/]/,
                     name: 'commons',
                     minSize: 30000,
-                    minChunks: 3,
-                    chunks: 'all',
+                    minChunks: 2,
                     priority: -1,
                     reuseExistingChunk: true // 这个配置允许我们使用已经存在的代码块
                 }

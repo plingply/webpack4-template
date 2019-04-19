@@ -50,7 +50,7 @@ module.exports = {
     },
     output: {
         path: resolve('dist'),
-        filename: 'static/js/[name].[chunkhash].js'
+        filename: 'static/js/[name].[chunkhash:5].js'
     },
     resolve: {
         extensions: [".js", ".css", ".json", ".vue"],
@@ -170,8 +170,8 @@ module.exports = {
         new VueLoaderPlugin(),
 
         new MiniCssExtractPlugin({
-            filename: isDevelopment ? "static/style/[name].css" : "static/style/[name].[contenthash].css",
-            chunkFilename: isDevelopment ? 'static/style/[name].css' : 'static/style/[id].[name].[contenthash].css'
+            filename: isDevelopment ? "static/style/[name].css" : "static/style/[name].[contenthash:5].css",
+            chunkFilename: isDevelopment ? 'static/style/[name].css' : 'static/style/[id].[name].[contenthash:5].css'
         }),
 
         new CopyWebpackPlugin([{
