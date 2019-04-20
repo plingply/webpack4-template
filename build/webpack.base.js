@@ -12,7 +12,7 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 const config = require("../config/index")
 
-const NODE_ENV = process.env.NODE_ENV === 'production'?'production':'development'
+const NODE_ENV = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -44,7 +44,7 @@ module.exports = {
     // development
     context: path.resolve(__dirname, '../'),
     entry: {
-        main: './src/main.js'
+        _main: './src/main.js'
     },
     output: {
         path: resolve(config.production.buildDir),
@@ -57,6 +57,11 @@ module.exports = {
             "vue": "vue/dist/vue.min.js",
             "@": resolve('src')
         } //配置别名可以加快webpack查找模块的速度
+    },
+    stats: {
+        excludeModules: true,
+        children: false,
+        errors: true
     },
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
@@ -110,7 +115,7 @@ module.exports = {
         ]
     },
     plugins: [
-        
+
         new HappyPack({
             id: 'js',
             threadPool: happyThreadPool,

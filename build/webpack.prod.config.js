@@ -22,17 +22,16 @@ const nameLength = 4;
 
 module.exports = merge(baseConfig, {
     // devtool: 'cheap-module-source-map', 
-    devtool: 'none', 
+    devtool: 'none',
     output: {
         filename: 'static/js/[name].[chunkhash:5].js'
     },
 
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
-        rules: [
-            {
+        rules: [{
                 test: /\.css$/,
-                use: [ {
+                use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: config.publicPath
@@ -41,7 +40,7 @@ module.exports = merge(baseConfig, {
             },
             {
                 test: /\.less$/,
-                use: [ {
+                use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: config.publicPath
