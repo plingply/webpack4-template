@@ -8,7 +8,7 @@ const config = require("../config/index")
 const proxy = httpProxy.createProxyServer();
 
 //设置静态资源
-app.use(express.static(path.resolve(__dirname, "../", 'dist')));
+app.use(express.static(path.resolve(__dirname, config.buildDirPath)));
 
 app.all("/api/*", function(req, res) {
     proxy.web(req, res, { target: config.production.apiURL });
