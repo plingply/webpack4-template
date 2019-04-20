@@ -18,10 +18,11 @@ module.exports = {
         port: 8881,
         //api 代理地址
         apiURL: '',
-        //打包输出路径 相对于项目根目录
-        buildDir: 'dist'
+        //打包输出路径 相对于当前目录
+        buildDirPath: '../',
+        buildDirName: 'dist'
     },
 
-    // 源码路由
+    // 源码路由  根目录
     originPagePath: 'src/views'
 }

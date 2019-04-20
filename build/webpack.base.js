@@ -47,7 +47,7 @@ module.exports = {
         _main: './src/main.js'
     },
     output: {
-        path: resolve(config.production.buildDir),
+        path: path.resolve(__dirname, config.production.buildDirPath, config.production.buildDirName),
         filename: 'static/js/[name].js',
         publicPath: config.publicPath
     },
@@ -126,7 +126,7 @@ module.exports = {
 
         new CopyWebpackPlugin([{
             from: path.join(__dirname, '..', 'static'),
-            to: path.join(__dirname, '..', 'dist', 'static'),
+            to: path.join(__dirname, config.production.buildDirPath, config.production.buildDirName, 'static'),
             ignore: ['.*']
         }]),
 

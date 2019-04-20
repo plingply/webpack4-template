@@ -117,8 +117,8 @@ module.exports = merge(baseConfig, {
             chunkFilename: 'static/style/[id].[name].[contenthash:5].css'
         }),
 
-        new CleanWebpackPlugin(['dist'], {
-            root: path.join(__dirname, '..'),
+        new CleanWebpackPlugin([config.production.buildDirName], {
+            root: path.join(__dirname, config.production.buildDirPath),
             verbose: true,
             dry: false
         }),
