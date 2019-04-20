@@ -23,7 +23,9 @@
 
           已实现永久缓存。
           
-          <router-link :to="{ name:'home' }">HOME</router-link>
+          <router-link
+  :to="{ name:'home' }"
+>HOME</router-link>
     </pre>
   </div>
 </template>
