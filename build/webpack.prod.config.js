@@ -114,7 +114,7 @@ module.exports = merge(baseConfig, {
 
         new MiniCssExtractPlugin({
             filename: "static/style/[name].[contenthash:5].css",
-            chunkFilename: 'static/style/[id].[name].[contenthash:5].css'
+            chunkFilename: 'static/style/[name].[contenthash:5].css'
         }),
 
         new CleanWebpackPlugin([config.buildDirName], {

@@ -1,4 +1,3 @@
-import info from "../views/info/info.vue";
 import h5 from "../views/h5/h5.vue";
 
 var routes = [{
@@ -9,7 +8,7 @@ var routes = [{
     {
         path: "/info",
         name: "info",
-        component: info
+        component: () => () => import(/* webpackChunkName: "index" */ '../views/info/info.vue')
     },
     {
         path: "/h5",
