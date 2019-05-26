@@ -15,7 +15,7 @@
 
     <base-checkbox ref="basecheck" v-model="lovingVue"></base-checkbox>
 
-    <inputs @input="inputsfunc" @focus="focusfunc" v-model="inputsValue"></inputs>
+    <inputs data-a="penglin" placeholder="你好呀" @input="inputsfunc" @focus="focusfunc" v-model="inputsValue"></inputs>
 
     <dia :show.sync="show"></dia>
   </div>

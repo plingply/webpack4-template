@@ -18,7 +18,7 @@ let router = new vueRouter({
     routes // （缩写）相当于 routes: routes
 })
 
-new vue({
+window.vm = new vue({
     store,
     router,
     render: h => h(App)

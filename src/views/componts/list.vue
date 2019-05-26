@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import vue from "vue"
 export default {
     props:{
         name:{
@@ -23,6 +24,12 @@ export default {
             this.name = '我是通过直接修改prop改变的'
             // this.$emit("callback")
         }
+    },
+
+    mounted(){
+        vm.$on("pk", msg=> {
+            console.log('12343',msg)
+          });
     }
 }
 </script>
