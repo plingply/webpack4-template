@@ -23,7 +23,7 @@ export default {
     methods:{
       cx(){
         this.show = false
-        vm.$emit('pk', 'hi')
+        this.$root.$emit('pk', 'hi')
       }
     },
 

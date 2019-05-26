@@ -27,7 +27,7 @@ export default {
     },
 
     mounted(){
-        vm.$on("pk", msg=> {
+        this.$root.$on("pk", msg=> {
             console.log('12343',msg)
           });
     }
