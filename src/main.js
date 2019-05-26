@@ -12,6 +12,8 @@ vue.use(vueRouter)
 vue.use(axios)
 vue.use(element)
 
+vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+
 import routes from './router/index'
 //实例化VueRouter
 let router = new vueRouter({
