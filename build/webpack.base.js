@@ -35,7 +35,7 @@ const createLintingRule = () => ({
     include: [resolve('src'), resolve('test')],
     options: {
         formatter: require('eslint-friendly-formatter'),
-        emitWarning: !config.development.showEslintErrorsInOverlay
+        emitWarning: !config.showEslintErrorsInOverlay
     }
 })
 
@@ -68,7 +68,7 @@ module.exports = {
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
         rules: [
-            ...(config.development.useEslint ? [createLintingRule()] : []),
+            ...(config.useEslint ? [createLintingRule()] : []),
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',

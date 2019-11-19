@@ -1,6 +1,11 @@
 module.exports = {
     // 打包相对路径的项目 解决样式中资源的路径问题
     publicPath: "/",
+
+    useEslint: false,
+
+    showEslintErrorsInOverlay: false,
+
     // 开发环境
     development: {
         host: 'localhost',
@@ -8,9 +13,6 @@ module.exports = {
         port: 8980,
         //api 代理地址
         apiURL: '',
-        // eslint
-        useEslint: false,
-        showEslintErrorsInOverlay: false
     },
     // 生产环境
     production: {

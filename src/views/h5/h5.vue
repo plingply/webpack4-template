@@ -24,7 +24,7 @@
         <p></p>
       </section>
 
-      <input type="text" list="cars">
+      <input type="text" list="cars" />
       <datalist id="cars">
         <option value="宝马"></option>
         <option value="奔驰"></option>
