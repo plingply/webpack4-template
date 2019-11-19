@@ -1,3 +1,3 @@
 export default {
-    baseURL:'production'
+    baseURL:'https://api.imxyb.com'
 }

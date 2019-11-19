@@ -8,6 +8,8 @@ import element from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css'
 import './less/index.less'
 
+
+
 vue.use(vueRouter)
 vue.use(axios)
 vue.use(element)

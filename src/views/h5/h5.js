@@ -6,7 +6,7 @@ export default {
     },
 
     created() {
-        
+        console.log('h5')
     },
 
     methods: {

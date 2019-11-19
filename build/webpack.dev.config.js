@@ -11,7 +11,7 @@ function resolve(dir) {
 }
 
 const devWebpackConfig = merge(baseConfig, {
-    devtool: 'eval', // 指定加source-map的方式
+    devtool: 'inline-source-map', // 指定加source-map的方式
     devServer: {
         inline: true, //打包后加入一个websocket客户端
         hot: true, //热加载

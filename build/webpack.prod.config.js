@@ -13,6 +13,8 @@ const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const config = require("../config/index")
 
+const NODE_ENV = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -21,8 +23,9 @@ const seen = new Set();
 const nameLength = 4;
 
 module.exports = merge(baseConfig, {
-    // devtool: 'cheap-module-source-map', 
-    devtool: 'none',
+
+    devtool: NODE_ENV == 'production' ? 'none' : 'cheap-module-source-map',
+
     output: {
         filename: 'static/js/[name].[chunkhash:5].js'
     },
@@ -30,36 +33,36 @@ module.exports = merge(baseConfig, {
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
         rules: [{
-                test: /\.css$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'css-loader', 'postcss-loader']
-            },
-            {
-                test: /\.less$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'css-loader', 'postcss-loader', 'less-loader'],
-                include: [resolve('src')],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.scss$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: config.publicPath
-                    }
-                }, 'css-loader', 'postcss-loader', 'scss-loader'],
-                include: [resolve('src')],
-                exclude: /node_modules/
-            }
+            test: /\.css$/,
+            use: [{
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                    publicPath: config.publicPath
+                }
+            }, 'css-loader', 'postcss-loader']
+        },
+        {
+            test: /\.less$/,
+            use: [{
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                    publicPath: config.publicPath
+                }
+            }, 'css-loader', 'postcss-loader', 'less-loader'],
+            include: [resolve('src')],
+            exclude: /node_modules/
+        },
+        {
+            test: /\.scss$/,
+            use: [{
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                    publicPath: config.publicPath
+                }
+            }, 'css-loader', 'postcss-loader', 'scss-loader'],
+            include: [resolve('src')],
+            exclude: /node_modules/
+        }
         ]
     },
 
@@ -128,20 +131,26 @@ module.exports = merge(baseConfig, {
             cssProcessorOptions: require("postcss-safe-parser"),
             canPrint: false
         }),
-        new WebpackParallelUglifyPlugin({
+        ...(NODE_ENV === 'production' ? [new WebpackParallelUglifyPlugin({
+            test: /.js$/,
+            workerCount: 4,
+            cacheDir: 'cache',
             uglifyJS: {
                 output: {
-                    beautify: false, //不需要格式化
-                    comments: false //不保留注释
+                    beautify: true, //不需要格式化
+                    comments: true //不保留注释
                 },
                 compress: {
-                    warnings: false, // 在UglifyJs删除没有用到的代码时不输出警告
+                    drop_debugger: true,
                     drop_console: true, // 删除所有的 `console` 语句，可以兼容ie浏览器
                     collapse_vars: true, // 内嵌定义了但是只用到一次的变量
                     reduce_vars: true // 提取出出现多次但是没有定义成变量去引用的静态值
-                }
+                },
+                warnings: false, // 在UglifyJs删除没有用到的代码时不输出警告
+                mangle: true, // 混淆名字
             }
-        })
+        })] : [])
+
     ],
     optimization: {
         runtimeChunk: 'single',
@@ -167,6 +176,11 @@ module.exports = merge(baseConfig, {
                 }
             }
         }
-    }
+    },
 
+    performance: {
+        hints: NODE_ENV === 'production' ? false : 'warning',
+        maxEntrypointSize: 500000,
+        maxAssetSize: 100000
+    }
 })

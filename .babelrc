@@ -1,18 +1,9 @@
 {
-    "presets": [
-        "env"
-    ],
+    "presets": ["@babel/preset-env"],
     "plugins": [
         "dynamic-import-webpack",
-        [
-            "transform-runtime",
-            {
-                "helpers": false,
-                "polyfill": false,
-                "regenerator": true,
-                "moduleName": "babel-runtime"
-            }
-        ]
+        "@babel/plugin-transform-runtime", 
+        "@babel/plugin-proposal-class-properties"
     ],
     "comments": false
 }

@@ -1,3 +1,3 @@
 export default {
-    baseURL:'test'
+    baseURL:'https://api-test.imxyb.com'
 }

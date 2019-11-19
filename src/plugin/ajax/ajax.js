@@ -5,7 +5,7 @@ let Promise = require('es6-promise').Promise;
 
 const Axios = axios.create({
     baseURL: $config.baseURL,
-    timeout: 5000,
+    timeout: 10000,
     withCredentials: true, //带上 cookie
 })
 
@@ -46,7 +46,6 @@ Axios.interceptors.request.use(config => {
 
     return config
 }, error => {
-    alert('参数错误！');
     return Promise.reject(error)
 })
 
@@ -61,7 +60,6 @@ Axios.interceptors.response.use(res => {
 
     return data
 }, error => {
-    alert('网络错误，请检查网络再试！')
     return Promise.reject(error)
 })
 

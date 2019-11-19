@@ -6,9 +6,8 @@ const webpack = require('webpack')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin') // 复制静态资源的插件
-const HappyPack = require('happypack');
-const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+// 引入插件
+const vConsolePlugin = require('vconsole-webpack-plugin');
 
 const config = require("../config/index")
 
@@ -17,6 +16,7 @@ const NODE_ENV = process.env.NODE_ENV === 'production' ? 'production' : 'develop
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
+
 
 function assetsPath(_path_) {
     let assetsSubDirectory;
@@ -61,7 +61,9 @@ module.exports = {
     stats: {
         excludeModules: true,
         children: false,
-        errors: true
+        errors: true,
+        version: true,
+        timings: true,
     },
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
@@ -75,7 +77,9 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                use: 'happypack/loader?id=js'
+                use: 'babel-loader',
+                include: [resolve('src')], //限制范围，提高打包速度
+                exclude: /node_modules/
             },
             {
                 //file-loader 解决css等文件中引入图片路径的问题
@@ -116,12 +120,6 @@ module.exports = {
     },
     plugins: [
 
-        new HappyPack({
-            id: 'js',
-            threadPool: happyThreadPool,
-            loaders: ['babel-loader']
-        }),
-
         new VueLoaderPlugin(),
 
         new CopyWebpackPlugin([{
@@ -137,6 +135,11 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             $config: [resolve(`src/config/config.${process.env.NODE_ENV}.js`), 'default']
+        }),
+
+        new vConsolePlugin({
+            filter: [],  // 需要过滤的入口文件
+            enable: NODE_ENV !== 'production' // 发布代码前记得改回 false
         }),
     ]
 }
