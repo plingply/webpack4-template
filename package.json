@@ -23,7 +23,7 @@
       "git add"
     ]
   },
-  "pre-commit": "lint-staged",
+  // "pre-commit": "lint-staged",
   "author": "penglin",
   "license": "ISC",
   "devDependencies": {
