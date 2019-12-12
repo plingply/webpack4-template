@@ -10,16 +10,19 @@
     "dev:prod": "cross-env NODE_ENV='production' webpack-dev-server --open --config build/webpack.dev.config.js",
     "server": "cross-env NODE_ENV='production' node build/server.js",
     "lint": "eslint --ext .js,.vue src",
-    "new": "gulp --gulpfile ./build/gulpfile.js component --component",
-    "test": "echo \"Error: I SHOULD FAIL LOLOLOLOLOL \" && exit 1",
-    "foo": "echo \"fooo\" && exit 0",
-    "bar": "echo \"bar\" && exit 0"
+    "new": "gulp --gulpfile ./build/gulpfile.js component --component"
   },
-  "pre-commit": [
-    "foo",
-    "bar",
-    "test"
-  ],
+  "lint-staged": {
+    "*.{css,json,md}": [
+      "git add"
+    ],
+    "*.{js,vue}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "pre-commit": "lint-staged",
   "author": "penglin",
   "license": "ISC",
   "devDependencies": {
@@ -58,12 +61,14 @@
     "http-proxy": "^1.18.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "lint-staged": "^9.5.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
     "open": "^7.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "postcss-safe-parser": "^4.0.1",
+    "pre-commit": "^1.2.2",
     "progress-bar-webpack-plugin": "^1.12.1",
     "purify-css": "^1.2.5",
     "sass": "^1.23.6",
