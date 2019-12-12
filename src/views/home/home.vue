@@ -6,6 +6,7 @@
     <div>
       <el-button type="primary" @click="show = true">弹框</el-button>
     </div>
+    
     <div>name: {{ name }}</div>
     <div>lovingVue: {{ lovingVue }}</div>
     <div>子组件中的年龄是：{{ childrens }}</div>
