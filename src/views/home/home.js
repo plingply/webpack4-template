@@ -10,7 +10,6 @@ export default {
             show: false,
             childrens: '',
             onmsg: '',
-
             inputsValue: 'inputsValue'
         }
     },
