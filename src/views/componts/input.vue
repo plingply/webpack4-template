@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" v-bind="$attrs" :value="value1" v-on="inputListeners">
+    <input type="text" v-bind="$attrs" :value="value1" v-on="inputListeners" />
     <div>父组件中inputsValue：{{ $parent.inputsValue }}</div>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
   },
   props: ["value1"],
   computed: {
-    inputListeners: function() {
+    inputListeners() {
       var vm = this;
       // `Object.assign` 将所有的对象合并为一个新对象
       return Object.assign(
@@ -23,7 +23,7 @@ export default {
         // 或覆写一些监听器的行为
         {
           // 这里确保组件配合 `v-model` 的工作
-          input: function(event) {
+          input() {
             vm.$emit("input", event.target.value);
           }
         }
@@ -31,8 +31,6 @@ export default {
     }
   },
 
-  created() {
-    
-  }
+  created() {}
 };
 </script>

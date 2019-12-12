@@ -26,6 +26,10 @@ export default {
     }
   },
 
+  created(){
+    
+  },
+
   mounted() {
     this.$root.$on("pk", msg => {
       console.log("12343", msg);

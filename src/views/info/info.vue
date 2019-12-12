@@ -1,9 +1,6 @@
 <template>
   <div class="info">
     <pre>
-
-
-
           // 新建组件 默认路径为config.originPagePath
           npm run new [compontName] 在src/views 下面创建组件
           npm run new [compontName]:[path] 在src/views/path 下面创建组件
@@ -19,7 +16,6 @@
           npm run build:dev [ 加载 src/config.development.js ]
           npm run build:test [ 加载 src/config.test.js ]
           npm run build [ 加载 src/config.production.js ]
-
 
           已实现永久缓存。
           

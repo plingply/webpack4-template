@@ -5,17 +5,17 @@ import dia from "../componts/dia"
 export default {
     data() {
         return {
-            name:'xinxin',
+            name: 'xinxin',
             lovingVue: true,
             show: false,
-            childrens:'',
-            onmsg:'',
+            childrens: '',
+            onmsg: '',
 
-            inputsValue:'inputsValue'
+            inputsValue: 'inputsValue'
         }
     },
 
-    components:{
+    components: {
         list,
         baseCheckbox,
         inputs,
@@ -23,19 +23,19 @@ export default {
     },
 
     created() {
-        
+
     },
 
     methods: {
-        callback(){
+        callback() {
             this.name = '我是通过事件改变的'
         },
 
-        inputsfunc(){
+        inputsfunc() {
             console.log(this.inputsValue)
         },
 
-        focusfunc(){
+        focusfunc() {
             console.log('获得焦点了')
             this.inputsValue = ''
         }
@@ -44,9 +44,9 @@ export default {
     mounted() {
         this.childrens = this.$refs.basecheck.age
 
-        this.$on("test", function(msg) {
+        this.$on("test", (msg) => {
             console.log(msg)
             this.onmsg = msg
-          });
+        });
     },
 }

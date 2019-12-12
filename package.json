@@ -9,9 +9,17 @@
     "dev": "cross-env NODE_ENV='development' webpack-dev-server --open --config build/webpack.dev.config.js",
     "dev:prod": "cross-env NODE_ENV='production' webpack-dev-server --open --config build/webpack.dev.config.js",
     "server": "cross-env NODE_ENV='production' node build/server.js",
-    "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "new": "gulp --gulpfile ./build/gulpfile.js component --component"
+    "lint": "eslint --ext .js,.vue src",
+    "new": "gulp --gulpfile ./build/gulpfile.js component --component",
+    "test": "echo \"Error: I SHOULD FAIL LOLOLOLOLOL \" && exit 1",
+    "foo": "echo \"fooo\" && exit 0",
+    "bar": "echo \"bar\" && exit 0"
   },
+  "pre-commit": [
+    "foo",
+    "bar",
+    "test"
+  ],
   "author": "penglin",
   "license": "ISC",
   "devDependencies": {

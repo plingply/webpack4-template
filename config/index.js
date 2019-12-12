@@ -2,9 +2,9 @@ module.exports = {
     // 打包相对路径的项目 解决样式中资源的路径问题
     publicPath: "/",
 
-    useEslint: false,
+    useEslint: true,
 
-    showEslintErrorsInOverlay: false,
+    showEslintErrorsInOverlay: true,
 
     // 开发环境
     development: {

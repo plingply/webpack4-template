@@ -8,17 +8,15 @@ import element from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css'
 import './less/index.less'
 
-
-
 vue.use(vueRouter)
 vue.use(axios)
 vue.use(element)
 
-vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
 import routes from './router/index'
 //实例化VueRouter
-let router = new vueRouter({
+const router = new vueRouter({
     routes // （缩写）相当于 routes: routes
 })
 
