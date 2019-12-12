@@ -9,24 +9,22 @@
 </template>
 
 <script>
-import vue from "vue";
 export default {
-  props: ["show"],
+  props: ['show'],
 
   watch: {
     show() {
-      console.log("change show");
-      this.$emit("update:show", this.show);
+      this.$emit('update:show', this.show)
     }
   },
+
+  mounted() {},
 
   methods: {
     cx() {
-      this.show = false;
-      this.$root.$emit("pk", "hi");
+      this.show = false
+      this.$root.$emit('pk', 'hi')
     }
-  },
-
-  mounted() {}
-};
+  }
+}
 </script>
