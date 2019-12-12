@@ -1,0 +1,16 @@
+diff a/src/views/home/home.vue b/src/views/home/home.vue	(rejected hunks)
+@@ -7 +11,3 @@
+-          <el-button type="primary" @click="show = true">弹框</el-button>
++      <el-button type="primary" @click="show = true">
++        弹框
++      </el-button>
+@@ -9 +15 @@
+-    
++
+@@ -31,2 +37,4 @@
+-<script src="./home.js"></script>
+-<style lang="less" scoped src="./home.less"></style>
++<script src="./home.js">
++</script>
++<style lang="less" scoped src="./home.less">
++</style>
